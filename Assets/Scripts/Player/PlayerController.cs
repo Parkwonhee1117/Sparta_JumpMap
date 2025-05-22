@@ -10,10 +10,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayerMask;
-    private Vector2 curMovementInput;
     private Rigidbody _rigidbody;
+    private Vector2 curMovementInput;
     public event Action onRunning;
     public event Action StopRunning;
+
+    public float MoveSpeed {get {return moveSpeed;}}
+    public float JumpPower {get {return jumpPower;}}
 
     [Header("Look")]
     [SerializeField] Transform cameraContainer;
@@ -125,5 +128,14 @@ public class PlayerController : MonoBehaviour
         }
     }
     
+    public void ChangeSpeed(float value)
+    {
+        moveSpeed += value;
+    }
+
+    public void ChangeJumpPower(float value)
+    {
+        jumpPower += value;
+    }
 
 }

@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public PlayerController playerController;
     public PlayerCondition playerCondition;
     public ItemData itemData;
-    public Action addItem;
+    public Action useItem;
 
     void Awake()
     {

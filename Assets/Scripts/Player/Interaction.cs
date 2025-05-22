@@ -13,11 +13,19 @@ public class Interaction : MonoBehaviour
     [SerializeField] private GameObject curInteractGameObject;
     [SerializeField] private IInteractable curInteractable;
     [SerializeField] private TextMeshProUGUI promptText;
+    private PlayerController playerController;
+    private PlayerCondition playerCondition;
+    private ItemData itemData;
+
     private Camera camera;
     // Start is called before the first frame update
     void Start()
     {
+        playerController = CharacterManager.Instance.Player.playerController;
+        playerCondition = CharacterManager.Instance.Player.playerCondition;
         camera = Camera.main;
+
+        CharacterManager.Instance.Player.useItem += UseItem;
     }
 
     // Update is called once per frame
@@ -54,6 +62,30 @@ public class Interaction : MonoBehaviour
         promptText.text = curInteractable.GetInteractPrompt();
     }
 
+    public void UseItem()
+    {
+        itemData = CharacterManager.Instance.Player.itemData;
+
+        if (itemData.type == ItemType.Consumable)
+        {
+            for (int i = 0; i < itemData.consumables.Length; i++)
+            {
+                switch (itemData.consumables[i].type)
+                {
+                    case ConsumableType.Health:
+                        playerCondition.Heal(itemData.consumables[i].value);
+                        break;
+                    case ConsumableType.Speed:
+                        StartCoroutine(TemporaryChangeSpeed(itemData.consumables[i].value));
+                        break;
+                    case ConsumableType.Jump:
+                        StartCoroutine(TemporaryChangeJump(itemData.consumables[i].value));
+                        break;
+                }
+            }
+        }
+    }
+
     public void OnInteractInput(InputAction.CallbackContext context)
     {
         if(context.phase == InputActionPhase.Started && curInteractable != null)
@@ -63,5 +95,23 @@ public class Interaction : MonoBehaviour
             curInteractable = null;
             promptText.gameObject.SetActive(false);
         }
+    }
+
+    IEnumerator TemporaryChangeSpeed(float value)
+    {
+        float originalSpeed = playerController.MoveSpeed;
+        playerController.ChangeSpeed(value);
+        yield return new WaitForSeconds(5f);
+        playerController.ChangeSpeed(-value);
+
+    }
+
+    IEnumerator TemporaryChangeJump(float value)
+    {
+        float originalJumpPower = playerController.JumpPower;
+        playerController.ChangeJumpPower(value);
+        yield return new WaitForSeconds(5f);
+        playerController.ChangeJumpPower(-value);
+
     }
 }

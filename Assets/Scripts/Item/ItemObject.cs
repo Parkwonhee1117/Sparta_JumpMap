@@ -10,18 +10,18 @@ public interface IInteractable
 
 public class ItemObject : MonoBehaviour, IInteractable
 {
-    [SerializeField] private ItemData _itemData;
-
+    public ItemData itemData;
+    
     public string GetInteractPrompt()
     {
-        string str = $"{_itemData.displayName}\n{_itemData.description}";
+        string str = $"{itemData.displayName}\n{itemData.description}";
         return str;
     }
 
     public void OnInteract()
     {
-        CharacterManager.Instance.Player.itemData = _itemData;
-        CharacterManager.Instance.Player.addItem?.Invoke();
+        CharacterManager.Instance.Player.itemData = itemData;
+        CharacterManager.Instance.Player.useItem?.Invoke();
         Destroy(gameObject);
     }
 }
