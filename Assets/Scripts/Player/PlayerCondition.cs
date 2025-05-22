@@ -62,11 +62,11 @@ public class PlayerCondition : MonoBehaviour
         CharacterManager.Instance.Player.playerController.StopRunning += StopRunning;
     }
 
-    void OnDisable()
-    {
-        CharacterManager.Instance.Player.playerController.onRunning -= StartRunning;
-        CharacterManager.Instance.Player.playerController.StopRunning -= StopRunning;
-    }
+    // void OnDisable()
+    // {
+    //     CharacterManager.Instance.Player.playerController.onRunning -= StartRunning;
+    //     CharacterManager.Instance.Player.playerController.StopRunning -= StopRunning;
+    // }
 
     public void StartRunning()
     {
