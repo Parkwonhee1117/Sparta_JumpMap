@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerCondition : MonoBehaviour
 {
-    public bool isRunning = false;
+    [SerializeField] private bool isRunning = false;
 
     public UICondition uICondition;
     public event Action onTakeDamage;
