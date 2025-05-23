@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class PlayerCondition : MonoBehaviour
 {
-    [SerializeField] private bool isRunning = false;
+    public bool isRunning = false;
 
     public UICondition uICondition;
     public event Action onTakeDamage;
 
-    Condition Health {get {return uICondition.health;}}
-    Condition Stamina {get {return uICondition.stamina;}}
+    public Condition Health {get {return uICondition.health;}}
+    public Condition Stamina {get {return uICondition.stamina;}}
 
     void Start()
     {
@@ -36,6 +36,7 @@ public class PlayerCondition : MonoBehaviour
             else
             {
                 isRunning = false;
+                Debug.Log("스테미나 소진");
             }
         }
     }
