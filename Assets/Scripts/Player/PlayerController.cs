@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayerMask;
-    private Rigidbody _rigidbody;
+    public Rigidbody rigidbody;
     private Vector2 curMovementInput;
     public event Action onRunning;
     public event Action StopRunning;
@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     void Start()
@@ -66,9 +66,9 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
         dir *= moveSpeed;
-        dir.y = _rigidbody.velocity.y;
+        dir.y = rigidbody.velocity.y;
 
-        _rigidbody.velocity = dir;
+        rigidbody.velocity = dir;
     }
 
     public void OnLook(InputAction.CallbackContext context)
@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && IsGrounded())
         {
-            _rigidbody.AddForce(transform.up * jumpPower, ForceMode.Impulse);
+            rigidbody.AddForce(transform.up * jumpPower, ForceMode.Impulse);
         }
     }
 

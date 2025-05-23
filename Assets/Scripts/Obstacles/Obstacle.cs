@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private Rigidbody _rigidbody;
+
     void Start()
     {
-        
+        _rigidbody = CharacterManager.Instance.Player.playerController.rigidbody;
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnCollisionEnter(Collision collision)
     {
-        
+        _rigidbody.AddForce(transform.up.normalized * 300f, ForceMode.Impulse);
     }
-}
+}   
