@@ -1665,6 +1665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
+  runPlusSpeed: 5
   jumpPower: 100
   groundLayerMask:
     serializedVersion: 2

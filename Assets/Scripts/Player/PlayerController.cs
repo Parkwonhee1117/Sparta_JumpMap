@@ -8,12 +8,14 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float runPlusSpeed;
     [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayerMask;
     public Rigidbody rigidbody;
     private Vector2 curMovementInput;
     public event Action onRunning;
     public event Action StopRunning;
+    private float initialSpeed;
 
     public float MoveSpeed {get {return moveSpeed;}}
     public float JumpPower {get {return jumpPower;}}
@@ -34,12 +36,19 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        initialSpeed = moveSpeed;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     void FixedUpdate()
     {
         Move();
+
+        if(CharacterManager.Instance.Player.playerCondition.Stamina.CurValue <= 0f)
+        {
+            moveSpeed = initialSpeed;
+            StopRunning?.Invoke();
+        }
     }
 
     void LateUpdate()
@@ -116,14 +125,16 @@ public class PlayerController : MonoBehaviour
 
     public void OnRun(InputAction.CallbackContext context)
     {
+
         if(context.phase == InputActionPhase.Performed)
         {
-            moveSpeed += 5;
+            moveSpeed += runPlusSpeed;
             onRunning?.Invoke();
+
         }
         if(context.phase == InputActionPhase.Canceled)
         {
-            moveSpeed -= 5;
+            moveSpeed = initialSpeed;
             StopRunning?.Invoke();
         }
     }
